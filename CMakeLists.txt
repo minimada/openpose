@@ -493,6 +493,16 @@ if (UNIX AND NOT APPLE)
       set(CAFFE_PREFIX caffe)
       set(CAFFE_URL ${CMAKE_SOURCE_DIR}/3rdparty/caffe)
 
+      # Add conda include library support
+      if (NOT $ENV{CONDA_PREFIX} STREQUAL "")
+        set(CONDA_BASE_DIR $ENV{CONDA_PREFIX})
+        message(STATUS "add caffe build include dir: ${CONDA_BASE_DIR}/include")
+        include_directories(
+          "${CONDA_BASE_DIR}/include")
+      else()
+        message(STATUS "NO CONDA ENV GET")
+      endif()
+
       # One for Intel Branch and one for Master
       if (USE_MKL)
         ExternalProject_Add(openpose_caffe
